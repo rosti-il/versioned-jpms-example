@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class VersionedModuleProvider {
 
-    public static <T extends VersionedService> T getService() {
+    public static <T extends VersionedService> T getService(Class<T> clazz) {
         var callerClass = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass();
         var callerModule = callerClass.getModule();
         var parent = callerModule.getLayer();
@@ -21,7 +21,12 @@ public class VersionedModuleProvider {
             var layer = parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
             var services = ServiceLoader.load(layer, VersionedService.class);
 
-            return (T) services.findFirst().get();
+            VersionedService service = services.findFirst().get();
+            if (!clazz.isInstance(service)) {
+                continue;
+            }
+
+            return (T) service;
         }
 
         throw new RuntimeException("module not found");
