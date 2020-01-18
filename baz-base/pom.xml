@@ -34,4 +34,14 @@
         </plugins>
     </build>
 
+    <dependencies>
+        <!--
+        <dependency>
+            <groupId>com.github.rosti-il</groupId>
+            <artifactId>versioned-jpms</artifactId>
+            <version>1.0</version>
+        </dependency>
+        -->
+    </dependencies>
+
 </project>

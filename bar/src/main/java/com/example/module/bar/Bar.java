@@ -1,11 +1,11 @@
 package com.example.module.bar;
 
+import com.example.jpms.version.VersionedModuleProvider;
 import com.example.module.baz.base.Baz;
-import com.example.module.baz.base.BazProvider;
 
 public class Bar {
     public static void printMe() {
-        Baz baz = BazProvider.getBaz("baz-3.1.jar", "baz");
+        Baz baz = VersionedModuleProvider.getService(Baz.class);
 
         System.out.println("Bar calls " + baz.getInfo());
         System.out.println("Bar calls " + baz.getInfo2());

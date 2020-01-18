@@ -1,11 +1,11 @@
 package com.example.module.foo;
 
+import com.example.jpms.version.VersionedModuleProvider;
 import com.example.module.baz.base.Baz;
-import com.example.module.baz.base.BazProvider;
 
 public class Foo {
     public static void printMe() {
-        Baz baz = BazProvider.getBaz("baz-2.1.jar", "baz");
+        Baz baz = VersionedModuleProvider.getService(Baz.class);
 
         System.out.println("Foo calls " + baz.getInfo());
 //        System.out.println("Foo calls " + baz.getInfo2()); // Exception thrown!!
