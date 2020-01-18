@@ -1,7 +1,7 @@
-import com.example.module.baz.base.Baz;
 import com.example.module.baz.impl.BazImpl;
+import com.github.rosti_il.jpms.VersionedService;
 
 module baz {
     requires baz.base;
-    provides Baz with BazImpl;
+    provides VersionedService with BazImpl;
 }

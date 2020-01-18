@@ -1,6 +1,8 @@
 package com.example.module.baz.base;
 
-public interface Baz {
+import com.github.rosti_il.jpms.VersionedService;
+
+public interface Baz extends VersionedService {
     /**
      * @since 1.0
      * */

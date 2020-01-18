@@ -1,4 +1,4 @@
-import com.example.jpms.version.VersionedModules;
+import com.github.rosti_il.jpms.VersionedModules;
 
 @VersionedModules(modules = {"baz:3.1"})
 module bar {

@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class VersionedModuleProvider {
 
-    public static <T> T getService(Class<T> clazz) {
+    public static <T extends VersionedService> T getService() {
         var callerClass = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass();
         var callerModule = callerClass.getModule();
         var parent = callerModule.getLayer();
@@ -19,9 +19,9 @@ public class VersionedModuleProvider {
             var from = Paths.get(module + '-' + moduleDef.substring(delimiterIdx + 1) + ".jar");
             var cf = parent.configuration().resolve(ModuleFinder.of(from), ModuleFinder.of(), Set.of(module));
             var layer = parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
-            var services = ServiceLoader.load(layer, clazz);
+            var services = ServiceLoader.load(layer, VersionedService.class);
 
-            return services.findFirst().get();
+            return (T) services.findFirst().get();
         }
 
         throw new RuntimeException("module not found");

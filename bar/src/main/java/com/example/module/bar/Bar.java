@@ -1,11 +1,11 @@
 package com.example.module.bar;
 
-import com.example.jpms.version.VersionedModuleProvider;
 import com.example.module.baz.base.Baz;
+import com.github.rosti_il.jpms.VersionedModuleProvider;
 
 public class Bar {
     public static void printMe() {
-        Baz baz = VersionedModuleProvider.getService(Baz.class);
+        Baz baz = VersionedModuleProvider.getService();
 
         System.out.println("Bar calls " + baz.getInfo());
         System.out.println("Bar calls " + baz.getInfo2());
