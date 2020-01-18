@@ -1,8 +1,8 @@
 package com.example.module.baz.base;
 
 public interface Baz {
-    void printMe();
-    default void printMe2() {
+    String getInfo();
+    default String getInfo2() {
         throw new RuntimeException("not implemented");
     }
 }

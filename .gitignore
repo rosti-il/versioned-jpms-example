@@ -1,4 +1,7 @@
 /1/
+
 /.idea/
-/target/
 *.iml
+
+target/
+!*/src/**/target/

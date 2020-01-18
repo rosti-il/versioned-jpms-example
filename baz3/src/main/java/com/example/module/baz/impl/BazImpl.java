@@ -4,12 +4,12 @@ import com.example.module.baz.base.Baz;
 
 public class BazImpl implements Baz {
     @Override
-    public void printMe() {
-        System.out.println("I'm Baz version 3.1");
+    public String getInfo() {
+        return "getInfo() of Baz version 3.1";
     }
 
     @Override
-    public void printMe2() {
-        System.out.println("I support versioning");
+    public String getInfo2() {
+        return "getInfo2() of Baz version 3.1";
     }
 }

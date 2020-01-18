@@ -4,7 +4,7 @@ import com.example.module.baz.base.Baz;
 
 public class BazImpl implements Baz {
     @Override
-    public void printMe() {
-        System.out.println("I'm Baz version 2.1");
+    public String getInfo() {
+        return "getInfo() of Baz version 2.1";
     }
 }
