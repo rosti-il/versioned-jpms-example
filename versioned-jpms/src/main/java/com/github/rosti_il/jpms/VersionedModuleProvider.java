@@ -5,27 +5,28 @@ import java.nio.file.Paths;
 import java.util.ServiceLoader;
 import java.util.Set;
 
+/**
+ * @author Rostislav Krasny
+ * */
 public class VersionedModuleProvider {
 
-    public static <T extends VersionedService> T getService(Class<T> clazz) {
+    public static <T extends VersionedService> T getService(Class<T> serviceClass) {
         var callerClass = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE).getCallerClass();
         var callerModule = callerClass.getModule();
-        var parent = callerModule.getLayer();
-        var versionedModules = callerModule.getAnnotation(VersionedModules.class);
+        var versionedDependencyModules = callerModule.getAnnotation(Dependencies.class);
 
-        if (versionedModules != null) {
-            for (var moduleDef : versionedModules.modules()) {
-                var delimiterIdx = moduleDef.indexOf(':');
-                var module = moduleDef.substring(0, delimiterIdx);
-                var from = Paths.get(module + '-' + moduleDef.substring(delimiterIdx + 1) + ".jar");
-                var cf = parent.configuration().resolve(ModuleFinder.of(from), ModuleFinder.of(), Set.of(module));
-                var layer = parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
-                var services = ServiceLoader.load(layer, VersionedService.class);
+        if (versionedDependencyModules != null) {
+            var callerModuleLayer = callerModule.getLayer();
 
-                VersionedService service = services.findFirst().get();
+            for (var moduleDef : versionedDependencyModules.modules()) {
+                var moduleArtifactPath = Paths.get(moduleDef.name() + '-' + moduleDef.version() + ".jar");
+                var moduleConfig = callerModuleLayer.configuration().resolve(ModuleFinder.of(moduleArtifactPath), ModuleFinder.of(), Set.of(moduleDef.name()));
+                var moduleLayer = callerModuleLayer.defineModulesWithOneLoader(moduleConfig, ClassLoader.getSystemClassLoader());
+                var moduleVersionedServices = ServiceLoader.load(moduleLayer, VersionedService.class);
 
-                if (clazz.isInstance(service)) {
-                    return (T) service;
+                var service = moduleVersionedServices.findFirst();
+                if (service.filter(serviceClass::isInstance).isPresent()) {
+                    return (T) service.get();
                 }
             }
         }

@@ -1,6 +1,10 @@
-import com.github.rosti_il.jpms.VersionedModules;
+import com.github.rosti_il.jpms.Dependencies;
+import com.github.rosti_il.jpms.VersionedModule;
 
-@VersionedModules(modules = {"baz:3.1", "pagaz:3.2"})
+@Dependencies(modules = {
+        @VersionedModule(name = "baz", version = "3.1"),
+        @VersionedModule(name = "pagaz", version = "3.2")
+})
 module bar {
     exports com.example.module.bar;
     requires baz.base;
