@@ -99,6 +99,20 @@
                     <outputDirectory>${project.basedir}/distribution</outputDirectory>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.basedir}/distribution</directory>
+                            <includes>
+                                <include>*.jar</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
