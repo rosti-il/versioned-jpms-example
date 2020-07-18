@@ -14,7 +14,7 @@ public class VersionedModuleProvider {
         var versionedModules = callerModule.getAnnotation(VersionedModules.class);
 
         if (versionedModules != null) {
-            for (String moduleDef : versionedModules.modules()) {
+            for (var moduleDef : versionedModules.modules()) {
                 var delimiterIdx = moduleDef.indexOf(':');
                 var module = moduleDef.substring(0, delimiterIdx);
                 var from = Paths.get(module + '-' + moduleDef.substring(delimiterIdx + 1) + ".jar");
@@ -23,11 +23,10 @@ public class VersionedModuleProvider {
                 var services = ServiceLoader.load(layer, VersionedService.class);
 
                 VersionedService service = services.findFirst().get();
-                if (!clazz.isInstance(service)) {
-                    continue;
-                }
 
-                return (T) service;
+                if (clazz.isInstance(service)) {
+                    return (T) service;
+                }
             }
         }
 
